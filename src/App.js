@@ -1,18 +1,14 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
-
-import NoteEditor from "./components/NoteEditor"
-
-
 import "./App.css"
 
-
+import Home from "./layouts/Home"
 
 function App() {
   return (
-    <div className="App">
-      <h1>Take Note App</h1>
-      <NoteEditor />
-    </div>
+      <div className="App">
+        <Home />
+      </div>
   );
 }
 
