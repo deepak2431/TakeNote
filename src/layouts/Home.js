@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 import NoteEditor from "../components/NoteEditor";
 import SidePanel from "../components/SidePanel";
 import NotesList from "../components/NotesList";
-
 
 const Home = () => {
     return (

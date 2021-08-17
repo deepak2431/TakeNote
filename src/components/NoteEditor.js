@@ -4,6 +4,7 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { convertToHTML } from 'draft-convert';
 import DOMPurify from 'dompurify';
 import { EditorState } from 'draft-js';
+import { useSelector } from 'react-redux';
 
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -24,26 +25,30 @@ const NoteEditor = () => {
         setConvertedContent(currentContentAsHTML);
     }
     const createMarkup = (html) => {
-        return  {
-          __html: DOMPurify.sanitize(html)
+        return {
+            __html: DOMPurify.sanitize(html)
         }
-      }
-      
-    return(
-        <div className="note-editor" style={{marginTop: "30px"}}>
-            <Row>
-                <Col md={6} xs={12}>
-                <InputGroup className="mb-2">
-                <FormControl 
-                    placeholder="Enter the note title"
-                />
-            </InputGroup>
-                </Col>
-                <Col md={3} xs={12}>
-                    <Button>Save Title</Button>
-                </Col>
-            </Row>
-            <Editor 
+    }
+    const isScratchPad = useSelector((state) => state.scratchPad)
+
+
+    return (
+        <div className="note-editor" style={{ marginTop: "30px" }}>
+            {!isScratchPad &&
+                <Row>
+                    <Col md={6} xs={12}>
+                        <InputGroup className="mb-2">
+                            <FormControl
+                                placeholder="Enter the note title"
+                            />
+                        </InputGroup>
+                    </Col>
+                    <Col md={3} xs={12}>
+                        <Button>Save Title</Button>
+                    </Col>
+                </Row>
+            }
+            <Editor
                 defaultEditorState={editorState}
                 onEditorStateChange={updatedState => {
                     setEditorState(updatedState)
@@ -54,7 +59,7 @@ const NoteEditor = () => {
                 toolbarClassName="toolbar-class"
             />
             <div className="preview" dangerouslySetInnerHTML={createMarkup(convertedContent)}></div>
-            <Button style={{margin: "30px", float: "right"}}>Save Note</Button>
+            {!isScratchPad && <Button style={{ margin: "30px", float: "right" }}>Save Note</Button>}
         </div>
     )
 };
