@@ -11,11 +11,7 @@ const SidePanel = () => {
     return (
         <div className="side-panel">
             <Nav className="flex-column app-sidebar">
-<<<<<<< HEAD
                 <Nav.Link onClick={() => dispatch({type: 'INIT_NEW_NOTE'})}><Plus color="royalblue" size={40} />New Note</Nav.Link>
-=======
-                <Nav.Link><Plus color="royalblue" size={40} />New Note</Nav.Link>
->>>>>>> 7ba356ec4eafab347ecd77933e844aa3ce749616
                 <Nav.Link onClick={() => dispatch({type : 'UPDATE_PAD_BOOL'})}><PencilSquare size={18} /> ScratchPad</Nav.Link>
                 <Nav.Link><Star /> Favourites</Nav.Link>
                 <Nav.Link><Trash /> Trash</Nav.Link>
