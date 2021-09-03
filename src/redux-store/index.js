@@ -1,9 +1,10 @@
-import {combineReducers} from 'redux';
-import  {scratchPadReducer, NewNoteReducer}  from  './Panel';
+import { combineReducers } from 'redux';
+import { PanelReducer } from './Panel';
+import { EditorReducer } from './Editor';
 
 const rootReducers = combineReducers({
-    scratchPad: scratchPadReducer,
-    newNote: NewNoteReducer
+    Panel: PanelReducer,
+    editor: EditorReducer,
 });
 
 export default rootReducers;

@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { convertToHTML } from 'draft-convert';
 import DOMPurify from 'dompurify';
-import { EditorState } from 'draft-js';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -12,85 +11,65 @@ import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { FormControl } from 'react-bootstrap';
 
-// Save notes as a object with title and content in redux store
-
-
 const NoteEditor = () => {
 
-    const [editorState, setEditorState] = useState(EditorState.createEmpty());
-
+    const dispatch = useDispatch();
+    const isScratchPad = useSelector((state) => state.Panel.scratchPad)
+    const editorTitle = useSelector((state) => state.editor.title)
+    const editorState = useSelector((state) => state.editor.editorState)
     const [convertedContent, setConvertedContent] = useState(null);
-    const [title, setTitle] = useState();
-    const [isSaveClicked, setIsSaveClicked] = useState(false);
 
-
-    const convertContentToHTML = () => {
-        let currentContentAsHTML = convertToHTML(editorState.getCurrentContent());
-        setConvertedContent(currentContentAsHTML);
-    }
     const createMarkup = (html) => {
         return {
             __html: DOMPurify.sanitize(html)
         }
     }
-    const handleTitleForm = (e) => {
-        e.preventDefault();
-        setTitle(e.target.value);
+    const convertContentToHTML = () => {
+        let currentContentAsHTML = convertToHTML(editorState.getCurrentContent());
+        setConvertedContent(currentContentAsHTML);
+        dispatch({ type: 'SET_EDITOR_CONTENT', payload: convertedContent })
     }
-    const handleSaveButton = () => {
-        if (isScratchPad) {
-            return;
-        }
-        else {
-            setIsSaveClicked(true);
-        }
+    const handleClick = () => {
+        let note = {title: editorTitle, notes: convertedContent}
+        dispatch({type: 'SAVE_NOTES', payload: note})
     }
-    const isScratchPad = useSelector((state) => state.scratchPad)
-    const isNewNote = useSelector((state) => state.newNote)
 
-    useEffect(() => {
-        setConvertedContent(null);
-        setTitle('');
-        setIsSaveClicked(null);
-    }, [isNewNote, isScratchPad])
 
     return (
         <div className="note-editor" style={{ marginTop: "30px" }}>
-            {(!isScratchPad && !isSaveClicked) &&
+            {!isScratchPad &&
                 <Row>
                     <Col md={6} xs={12}>
                         <InputGroup className="mb-2">
                             <FormControl
                                 placeholder="Enter the note title"
-                                onChange={handleTitleForm}
-                                value={title}
+                                value={editorTitle}
+                                onChange={(e) => {
+                                    dispatch({ type: 'SET_TITLE', payload: e.target.value })
+                                }}
                             />
                         </InputGroup>
-                    </Col>
-                    <Col md={3} xs={12}>
-                        <Button onClick={handleSaveButton}>Save Title</Button>
-                    </Col>
-                </Row>
-            }
-            {(isSaveClicked && !isScratchPad) &&
-                <Row>
-                    <Col md={6} xs={12}>
-                        <h3>{title}</h3>
                     </Col>
                 </Row>
             }
             <Editor
                 defaultEditorState={editorState}
                 onEditorStateChange={updatedState => {
-                    setEditorState(updatedState)
+                    dispatch({type: 'SET_EDITOR_STATE', payload: updatedState})
                     convertContentToHTML()
                 }}
                 wrapperClassName="wrapper-class"
                 editorClassName="editor-class"
                 toolbarClassName="toolbar-class"
             />
-            <div className="preview" dangerouslySetInnerHTML={createMarkup(convertedContent)}></div>
-            {!isScratchPad && <Button style={{ margin: "30px", float: "right" }}>Save Note</Button>}
+            {/*<div className="preview" dangerouslySetInnerHTML={createMarkup(convertedContent)}></div>1*/}
+            {!isScratchPad &&
+                <Button
+                    style={{ margin: "30px", float: "right" }}
+                    onClick={handleClick}
+                >
+                    Save Note
+            </Button>}
         </div>
     )
 };

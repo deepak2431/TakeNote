@@ -1,16 +1,23 @@
-export const scratchPadReducer = (state = 0, actions) => {
+const initialState = {
+    scratchPad: false,
+}
+export const PanelReducer = (state = initialState, actions) => {
     switch (actions.type) {
-        case 'UPDATE_PAD_BOOL':
-            return !state;
+        case 'SCRATCH_PAD_MODE': {
+            return {
+                ...state,
+                scratchPad: actions.payload,
+            }
+        }
+
+        case 'NEW_NOTE_CLICKED': 
+        return {
+            ...state,
+            scratchPad: actions.payload,
+        }
+
         default:
             return state;
     }
 };
-export const NewNoteReducer = (state = 0, actions) => {
-    switch(actions.type) {
-        case 'INIT_NEW_NOTE':
-            return !state;
-        default:
-            return state;
-    }
-}
+

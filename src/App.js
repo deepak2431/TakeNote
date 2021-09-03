@@ -7,16 +7,12 @@ import "./App.css"
 
 import Home from "./layouts/Home"
 
-
-
 function App() {
 
   const store = createStore(
     rootReducer,
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
   );
-
-
   return (
     <Provider store={store}>
       <div className="App">
