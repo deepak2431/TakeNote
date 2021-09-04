@@ -1,6 +1,3 @@
-<p align="center"> 
-  <img src="src/assets/logo.png" alt="HAR Logo" width="300px" height="150px">
-</p>
 <h1 align="center"> TakeNote (Under development) </h1>
 <h3 align="center"> An app for developers or any person to take quick notes. </h3>  
 </br>
@@ -77,9 +74,6 @@ Follow the given link to make a successful and valid PR: https://help.github.com
 1. Make PR title in this format: `Fixes #IssueNo : Name of Issue`
 
 For any doubts related to the issues, i.e., to understand the issue better etc, comment down your queries on the respective issue.
-
-<h2 id="license">License</h2>
-<p>This project is licensed under the MIT License - see the <a href="https://github.com/deepak2431/DailyBuzz/blob/master/LICENSE.md">License</a> for more details.
 
 
 
