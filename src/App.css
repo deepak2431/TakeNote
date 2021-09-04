@@ -30,8 +30,24 @@
 .nav-link:active, .nav-link:focus {
   color: #ffffff;
 }
-
 .notes-list {
   background: #d0d0d0;
   height: 100vh;
+}
+.notes-title {
+  background-color: #5183f5;
+  height: 130px;
+  border: 1px solid black;
+  cursor: pointer;
+}
+.notes-view {
+  background-color: #d0d0d0;
+  height: 80vh;
+  margin-top: 20px;
+}
+
+@media only screen and (max-width: 768px) {
+  .app-sidebar, .notes-list {
+    height: 30vh;
+  }
 }

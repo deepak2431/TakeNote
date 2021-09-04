@@ -2,8 +2,10 @@ import { EditorState } from 'draft-js';
 const initialState = {
     title: '',
     editorContent: null,
-    note: {},
+    notes: [],
     editorState: EditorState.createEmpty(),
+    notesViewMode: false,
+    clickedNotesId: '',
 }
 
 export const EditorReducer = (state = initialState, actions) => {
@@ -21,13 +23,25 @@ export const EditorReducer = (state = initialState, actions) => {
         case 'SAVE_NOTES': {
             return {
                 ...state,
-                note: actions.payload
+                notes: [...state.notes, actions.payload]
             }
         }
         case 'SET_EDITOR_STATE': {
             return {
                 ...state,
                editorState: actions.payload
+            }
+        }
+        case 'SET_NOTES_VIEW_MODE': {
+            return {
+                ...state,
+               notesViewMode: actions.payload
+            }
+        }
+        case 'SET_SET_NOTES_ID': {
+            return {
+                ...state,
+                clickedNotesId: actions.payload
             }
         }
         default:

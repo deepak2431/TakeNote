@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { convertToHTML } from 'draft-convert';
-import DOMPurify from 'dompurify';
 import { useSelector, useDispatch } from 'react-redux';
 
 import Row from 'react-bootstrap/Row';
@@ -10,6 +9,7 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { FormControl } from 'react-bootstrap';
+import * as uuid from 'uuid';
 
 const NoteEditor = () => {
 
@@ -18,20 +18,18 @@ const NoteEditor = () => {
     const editorTitle = useSelector((state) => state.editor.title)
     const editorState = useSelector((state) => state.editor.editorState)
     const [convertedContent, setConvertedContent] = useState(null);
-
-    const createMarkup = (html) => {
-        return {
-            __html: DOMPurify.sanitize(html)
-        }
-    }
+    
     const convertContentToHTML = () => {
         let currentContentAsHTML = convertToHTML(editorState.getCurrentContent());
         setConvertedContent(currentContentAsHTML);
         dispatch({ type: 'SET_EDITOR_CONTENT', payload: convertedContent })
     }
     const handleClick = () => {
-        let note = {title: editorTitle, notes: convertedContent}
-        dispatch({type: 'SAVE_NOTES', payload: note})
+        if (editorTitle !== '') {
+            let note_key = uuid.v4();
+            let note = { key: note_key.toString(), title: editorTitle, notes: convertedContent }
+            dispatch({ type: 'SAVE_NOTES', payload: note })
+        }
     }
 
 
@@ -55,14 +53,13 @@ const NoteEditor = () => {
             <Editor
                 defaultEditorState={editorState}
                 onEditorStateChange={updatedState => {
-                    dispatch({type: 'SET_EDITOR_STATE', payload: updatedState})
+                    dispatch({ type: 'SET_EDITOR_STATE', payload: updatedState })
                     convertContentToHTML()
                 }}
                 wrapperClassName="wrapper-class"
                 editorClassName="editor-class"
                 toolbarClassName="toolbar-class"
             />
-            {/*<div className="preview" dangerouslySetInnerHTML={createMarkup(convertedContent)}></div>1*/}
             {!isScratchPad &&
                 <Button
                     style={{ margin: "30px", float: "right" }}
