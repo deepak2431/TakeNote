@@ -1,5 +1,5 @@
 <h1 align="center"> TakeNote (Under development) </h1>
-<h3 align="center"> An app for developers or any person to take quick notes. </h3>  
+<h3 align="center"> An app for developers or any person to take quick handy notes. </h3>  
 </br>
 <details open="open">
   <summary>Table of Contents</summary>
