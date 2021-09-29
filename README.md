@@ -50,7 +50,7 @@ This is an example of how you may give instructions on setting up your project l
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/deepak2431/DailyBuzz
+   git clone https://github.com/deepak2431/TakeNote
    ```
 2. Install NPM packages
    ```sh
