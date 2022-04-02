@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { FormControl, Stack, Nav } from 'react-bootstrap';
@@ -54,15 +54,29 @@ const NotesList = () => {
 
     const notes = isFavMode ? favNotes : allNotes
 
+    const [searchInput, setSearchInput] = useState('');
+    const [searchedNotes, setSearchedNotes] = useState([]);
+
+    useEffect(() => {
+        let filteredNotes = notes.filter((note) => {
+            return (note.title.toLowerCase().includes(searchInput.toLowerCase()))
+        })
+        setSearchedNotes(filteredNotes);
+        
+    },[searchInput, notes])
+   
     return (
         <div className="notes-list">
             <InputGroup className="mb-2" style={{ padding: "20px" }}>
                 <FormControl
-                    placeholder="Search Notes"
+                    placeholder="Search Notes by title"
+                    onChange={(e) => {
+                        setSearchInput(e.target.value)
+                    }}
                 />
             </InputGroup>
             {
-                notes.map((note) => {
+                searchedNotes.map((note) => {
                     return (
                         <NotesCard
                             title={note.title}
