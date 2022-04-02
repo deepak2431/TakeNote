@@ -3,6 +3,7 @@ const initialState = {
     title: '',
     editorContent: null,
     notes: [],
+    favNotes: [],
     editorState: EditorState.createEmpty(),
     notesViewMode: false,
     clickedNotesId: '',
@@ -42,6 +43,12 @@ export const EditorReducer = (state = initialState, actions) => {
             return {
                 ...state,
                 clickedNotesId: actions.payload
+            }
+        }
+        case 'SET_FAV_NOTES': {
+            return {
+                ...state,
+                favNotes: [...state.favNotes, actions.payload]
             }
         }
         default:

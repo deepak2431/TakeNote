@@ -1,11 +1,11 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import InputGroup from 'react-bootstrap/InputGroup';
-import { FormControl } from 'react-bootstrap';
-import { JournalCheck } from 'react-bootstrap-icons';
+import { FormControl, Stack, Nav } from 'react-bootstrap';
+import { JournalCheck, Star, Trash } from 'react-bootstrap-icons';
 import Button from 'react-bootstrap/Button';
 
-const NotesCard = ({ title, keys }) => {
+const NotesCard = ({ title, keys, content }) => {
 
     const dispatch = useDispatch();
     return (
@@ -18,6 +18,7 @@ const NotesCard = ({ title, keys }) => {
                     <br></br>
                     <JournalCheck />
                 </h6>
+                <Stack direction="horizontal" gap={1}>
                 <Button
                     style={{ background: 'white', color: 'black', padding: 5, margin: 5 }}
                     onClick={() => {
@@ -27,7 +28,14 @@ const NotesCard = ({ title, keys }) => {
                 >
                     View Notes
                 </Button>
-
+                <Nav.Link onClick={() => {
+                    let note = {key: keys, title: title, notes: content }
+                    dispatch({ type: 'SET_FAV_NOTES', payload: note})
+                }}>
+                    <Star/>
+                </Nav.Link>
+                <Nav.Link><Trash /></Nav.Link>
+                </Stack>
             </div>
         </div>
     )
@@ -35,7 +43,12 @@ const NotesCard = ({ title, keys }) => {
 
 const NotesList = () => {
 
-    const notes = useSelector((state) => state.editor.notes)
+    const allNotes = useSelector((state) => state.editor.notes)
+    const favNotes = useSelector((state) => state.editor.favNotes)
+    const isFavMode = useSelector((state) => state.Panel.isFavMode)
+
+    const notes = isFavMode ? favNotes : allNotes
+    
     return (
         <div className="notes-list">
             <InputGroup className="mb-2" style={{ padding: "20px" }}>

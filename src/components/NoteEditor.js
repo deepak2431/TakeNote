@@ -32,7 +32,6 @@ const NoteEditor = () => {
         }
     }
 
-
     return (
         <div className="note-editor" style={{ marginTop: "30px" }}>
             {!isScratchPad &&
