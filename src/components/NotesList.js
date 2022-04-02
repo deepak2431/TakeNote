@@ -34,7 +34,12 @@ const NotesCard = ({ title, keys, content }) => {
                 }}>
                     <Star/>
                 </Nav.Link>
-                <Nav.Link><Trash /></Nav.Link>
+                <Nav.Link onClick={() => {
+                    dispatch({type: 'DEL_NOTES', payload: keys })
+                }}
+                >
+                    <Trash />
+                </Nav.Link>
                 </Stack>
             </div>
         </div>
@@ -48,7 +53,7 @@ const NotesList = () => {
     const isFavMode = useSelector((state) => state.Panel.isFavMode)
 
     const notes = isFavMode ? favNotes : allNotes
-    
+
     return (
         <div className="notes-list">
             <InputGroup className="mb-2" style={{ padding: "20px" }}>

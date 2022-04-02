@@ -2,7 +2,7 @@ import React from 'react';
 import { EditorState } from 'draft-js';
 import { useDispatch } from 'react-redux';
 import Nav from 'react-bootstrap/Nav';
-import { Plus, PencilSquare, Star, Trash } from 'react-bootstrap-icons';
+import { Plus, PencilSquare, Star } from 'react-bootstrap-icons';
 
 const SidePanel = () => {
 
@@ -34,7 +34,6 @@ const SidePanel = () => {
                     <Star /> 
                  Favourites
                 </Nav.Link>
-                <Nav.Link><Trash /> Trash</Nav.Link>
             </Nav>
         </div>
     )

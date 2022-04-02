@@ -51,6 +51,12 @@ export const EditorReducer = (state = initialState, actions) => {
                 favNotes: [...state.favNotes, actions.payload]
             }
         }
+        case 'DEL_NOTES':
+            return {
+                ...state,
+                notes: state.notes.filter(note => note.key !== actions.payload),
+                favNotes:  state.favNotes.filter(note => note.key !== actions.payload)
+            }
         default:
             return state;
     }
